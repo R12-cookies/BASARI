@@ -222,7 +222,7 @@ class _VisionState extends State<Vision> {
       }
     } else {
       audioPlayer.setVolume(10);
-      var res = await audioplayers[index].play(urls[index], isLocal: true);
+      var res = await audioplayers[index].play(urls[index], isLocal: true,stayAwake: true);
 _speak(' لحظات ');
       if (res == 1) {
         setState(() {

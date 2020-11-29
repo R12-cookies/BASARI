@@ -150,10 +150,10 @@ class _ChatScreenState extends State<ChatScreen> {
   initState() {
     super.initState();
     detector = ShakeDetector.autoStart(
-        shakeThresholdGravity: 2.5,
+        shakeThresholdGravity: 2.7,
         onPhoneShake: () {
           _speak(
-              " اِسحَب أُفُقِيّا للتنقل بين الصَّفحات. اٌنقُر مرة لكتابةِ حرف. و قم بِالسَّحْب  للاعلى لقراءة الرسالة و مرة أخرى لارسال الرسالة,  ضغطة مطولة لِإِضَافَة فراغ  و سحبةٌ لِلْأَسْفَل لحدف آخِرِ حَرْفٍ .آخر صفحة تحوي آخر حرفٍ من حروفِ الأبجدية. حرف الياء وبعدها تأتي مشتقات الألف بالترتيب التالي. الْهَمْزَة .الألف المكسورة. الألف بالهمزة. الألف المقصورة. الألف المقصورة بالهمزة. و الواو بالهمزة");
+              " اِسحَب أُفُقِيّا للتنقل بين الصَّفحات. اٌنقُر مرة لكتابةِ حرف. و قم بِالسَّحْب  للاعلى لقراءة الرسالة و مرة أخرى لإرسال الرسالة,  ضغطة مطولة لِإِضَافَة فراغ  و سحبةٌ لِلْأَسْفَل لحدف آخِرِ حَرْفٍ .آخر صفحة تحوي آخر حرفٍ من حروفِ الأبجدية. حرف الياء وبعدها تأتي مشتقات الألف بالترتيب التالي. الْهَمْزَة .الألف المكسورة. الألف بالهمزة. الألف المقصورة. الألف المقصورة بالهمزة. و الواو بالهمزة");
         });
     initTts();
   }
@@ -221,9 +221,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 onHorizontalDragStart: (DragStartDetails details) {
                   _speak('الصفحة التالية');
                 },
-                onHorizontalDragEnd: (DragEndDetails details) {
-                  
-                },
+                onHorizontalDragEnd: (DragEndDetails details) {},
                 onDoubleTap: () {
                   Navigator.of(context).pushReplacement(
                       new MaterialPageRoute(builder: (context) => new Home()));
@@ -231,6 +229,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 onLongPress: () {
                   s = s + ' ';
                   print(s);
+                  _speak('فراغ');
                 },
                 onVerticalDragEnd: (dragEndDetails) {
                   if (dragEndDetails.primaryVelocity < 0) {
@@ -241,9 +240,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     });
                     if (s.length > 0) {
                       _speak("$s");
-                      setState(() {
-                        
-                      });
+                      setState(() {});
                     } else {
                       _speak("الرسالة فارغة");
                     }
