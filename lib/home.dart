@@ -24,7 +24,6 @@ class _HomeScreenSplashState extends State<HomeScreenSplash>
     initTts();
   }
 
-
   bool check = false;
   FlutterTts flutterTts;
 
@@ -77,7 +76,6 @@ class _HomeScreenSplashState extends State<HomeScreenSplash>
     bool _seen1 = (prefs.getBool('seen1') ?? false);
 
     if (_seen1) {
-      
       Navigator.of(context).pushReplacement(
           new MaterialPageRoute(builder: (context) => new Home()));
     } else {
@@ -184,15 +182,13 @@ class HomeState extends State<Home> {
     _speak('الصفحة الرئيسية');
   }
 
+  Weather weather;
   initPW() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    Weather weather = await wf.currentWeatherByLocation(
+    weather = await wf.currentWeatherByLocation(
         position.latitude, position.longitude);
-    setState(() {
-      w = weather;
-    });
   }
 
   void dispose() {
@@ -205,8 +201,12 @@ class HomeState extends State<Home> {
     return GestureDetector(
       onTap: () {
         DateTime dateTime = DateTime.now();
-
-        if (w != null) {
+        _battery.batteryLevel.then((level) {
+          this.setState(() {
+            _batteryLevel = level;
+          });
+        });
+        if (weather != null) {
           _speak("الساعة الاَن هي" +
               dateTime.toString().substring(11, 16) +
               "." +
@@ -215,15 +215,10 @@ class HomeState extends State<Home> {
               "%" +
               "." +
               "الجو" +
-              w.weatherDescription +
+              weather.weatherDescription +
               "." +
               "و درجة الحرارة " +
-              w.temperature.toString());
-          _battery.batteryLevel.then((level) {
-            this.setState(() {
-              _batteryLevel = level;
-            });
-          });
+              weather.temperature.toString());
         } else {
           _speak("تَأَكَّدْ اَنَّكَ مُتَّصِلٌ بالانترنت. " +
               "الساعة الاَن هي" +
@@ -241,7 +236,7 @@ class HomeState extends State<Home> {
       },
       onLongPress: () {
         _speak('الرسائل');
-        Timer(Duration(seconds: 2), () {
+        Timer(Duration(seconds: 1), () {
           Navigator.of(context).pushReplacement(
               new MaterialPageRoute(builder: (context) => ChatScreen()));
         });

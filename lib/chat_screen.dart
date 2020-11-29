@@ -51,7 +51,7 @@ class _ChatSplashState extends State<ChatSplash>
           ttsState = TtsState.stopped;
           check = true;
         });
-        await new Future.delayed(const Duration(seconds: 1));
+        
         _speak(word);
       }
     } else {
